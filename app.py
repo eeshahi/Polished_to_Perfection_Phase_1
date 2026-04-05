@@ -66,3 +66,25 @@ reward_options = [
     {"name": "Free Gel Manicure", "points": 400}
 ]
 
+#employees name for booking availability 
+# _______________________________________
+employee_names = ["Marissa", "Jackie", "Eesha Shahi"]
+
+#timing of the salon and bookings 
+all_times = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"]
+
+# save the users list back to all the paths 
+def save_users():
+    with open(users_file, "w") as f:
+        json.dump(users, f, indent=4)
+
+
+def save_appointments():
+    with open(appt_file, "w") as f:
+        json.dump(appointments, f, indent=4)
+
+
+def save_inventory():
+    with open(inventory_file, "w") as f:
+        json.dump(inventory, f, indent=4)
+
