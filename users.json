@@ -1,0 +1,22 @@
+[
+    {
+        "id": "1",
+        "email": "customer@example.com",
+        "full_name": "Test Customer",
+        "password": "password123",
+        "role": "Customer",
+        "registered_at": "2026-04-05 17:00:00",
+        "reward_points": 0,
+        "reward_history": []
+    },
+    {
+        "id": "2",
+        "email": "employee@example.com",
+        "full_name": "Test Employee",
+        "password": "password123",
+        "role": "Employee",
+        "registered_at": "2026-04-05 17:00:00",
+        "reward_points": 0,
+        "reward_history": []
+    }
+]
