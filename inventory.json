@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "item_name": "Gel Polish",
+        "category": "Polish",
+        "quantity": 12,
+        "low_stock_limit": 5,
+        "supplier": "SalonPro Supplies"
+    },
+    {
+        "id": 2,
+        "item_name": "Acrylic Powder",
+        "category": "Acrylic",
+        "quantity": 7,
+        "low_stock_limit": 3,
+        "supplier": "Beauty Warehouse"
+    },
+    {
+        "id": 3,
+        "item_name": "Cuticle Oil",
+        "category": "Nail Care",
+        "quantity": 14,
+        "low_stock_limit": 5,
+        "supplier": "Nail Essentials Co."
+    },
+    {
+        "id": 4,
+        "item_name": "Nail Files",
+        "category": "Tools",
+        "quantity": 24,
+        "low_stock_limit": 10,
+        "supplier": "SalonPro Supplies"
+    },
+    {
+        "id": 5,
+        "item_name": "Cotton Pads",
+        "category": "Supplies",
+        "quantity": 28,
+        "low_stock_limit": 12,
+        "supplier": "Beauty Warehouse"
+    }
+]
