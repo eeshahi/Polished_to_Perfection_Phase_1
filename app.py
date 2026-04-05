@@ -38,3 +38,31 @@ else:
     inventory = []
     with open(inventory_file, "w") as f:
         json.dump(inventory, f, indent=4)
+
+
+#Pricing and TOOLS NEEDED
+# -----------------------------
+service_price ={
+    "Basic Manicure": 20,
+    "Gel Manicure": 35,
+    "Classic Pedicure": 30,
+    "Acrylic Full Set": 50,
+    "Nail Art Design": 15
+}
+
+service_inventory_map ={ 
+    "Basic Manicure": ["Cuticle Oil", "Cotton Pads"],
+    "Gel Manicure": ["Gel Polish", "Cuticle Oil", "Cotton Pads"],
+    "Classic Pedicure": ["Cuticle Oil", "Cotton Pads"],
+    "Acrylic Full Set": ["Acrylic Powder", "Nail Files", "Cotton Pads"],
+    "Nail Art Design": ["Nail Files", "Cotton Pads"]
+}
+
+#Rewards Program and the points
+reward_options = [
+    {"name": "10% Off Next Service", "points": 50},
+    {"name": "Free Nail Art Design", "points": 100},
+    {"name": "Free Basic Manicure", "points": 250},
+    {"name": "Free Gel Manicure", "points": 400}
+]
+
