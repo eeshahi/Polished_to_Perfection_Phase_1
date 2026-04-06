@@ -63,7 +63,7 @@ else:
 
 #Pricing and TOOLS NEEDED
 # -----------------------------
-service_price ={
+service_prices ={
     "Basic Manicure": 20,
     "Gel Manicure": 35,
     "Classic Pedicure": 30,
