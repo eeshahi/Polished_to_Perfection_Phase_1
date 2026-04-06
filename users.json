@@ -18,5 +18,25 @@
         "registered_at": "2026-04-05 17:00:00",
         "reward_points": 0,
         "reward_history": []
+    },
+    {
+        "id": "e6e2a566-ad7b-448f-aed6-bd87952a2e4d",
+        "email": "eshahi@udel.edu",
+        "full_name": "Eesha Shahi",
+        "password": "MISY350!",
+        "role": "Employee",
+        "registered_at": "2026-04-05 22:14:03.487733",
+        "reward_points": 0,
+        "reward_history": []
+    },
+    {
+        "id": "81870d27-c305-46d1-9b01-605ae0b38e9f",
+        "email": "ava@gmail.com",
+        "full_name": "Ava P",
+        "password": "getlit",
+        "role": "Customer",
+        "registered_at": "2026-04-05 22:15:47.531422",
+        "reward_points": 0,
+        "reward_history": []
     }
 ]

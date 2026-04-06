@@ -301,7 +301,7 @@ if st.session_state["logged_in"]:
             st.session_state["messages"] = []
             st.rerun()
 
-# Authentication
+# Authentication for log in
 # -----------------------------
 if not st.session_state["logged_in"]:
     st.title("Polished to Perfection")
