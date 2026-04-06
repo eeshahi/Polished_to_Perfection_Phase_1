@@ -210,6 +210,163 @@ def redeem_reward_for_customer(user_id, reward_name, reward_cost):
                 return True
     return False
 
+# count how many inventory items are low on stock
+def get_low_stock_count():
+    count = 0
+    for item in inventory:
+        if item["quantity"] <= item["low_stock_limit"]:
+            count += 1
+    return count
 
 
-    
+updated_users = False
+for user in users:
+    if ensure_user_reward_fields(user): #USED AI to help us with this part becuase we were getting errors
+        updated_users = True
+
+if updated_users:
+    save_users()
+
+# Logged-In Pages
+# -----------------------------
+# once logged in, show the correct role-based pages
+else:
+    if st.session_state["role"] == "Customer":  #page for the customers
+        user_appts = get_user_appointments()
+        upcoming_count = 0
+        old_count = 0
+        canceled_count = 0
+
+        # calculate counts for customer dashboard KPI cards
+        for appt in user_appts:
+            if appt.get("status") == "Canceled":
+                canceled_count += 1
+            elif appt.get("status") == "Completed":
+                old_count += 1
+            elif is_past_appointment(appt):
+                old_count += 1
+            else:
+                upcoming_count += 1
+
+# grab reward data from the logged-in user
+        reward_points = st.session_state["user"].get("reward_points", 0)
+        reward_history = st.session_state["user"].get("reward_history", [])
+
+    # customer dashboard page    #KPI cards
+        if st.session_state["page"] == "dashboard":
+            col1, col2, col3 = st.columns([2, 3, 2])
+            with col2:
+                st.header("Polished to Perfection - Customer Dashboard")
+            st.divider()
+
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                with st.container(border=True):
+                    st.markdown("#### Upcoming")
+                    st.markdown(f"## {upcoming_count}")
+            with col2:
+                with st.container(border            # KPI cards
+                =True):
+                    st.markdown("#### Old")
+                    st.markdown(f"## {old_count}")
+            with col3:
+                with st.container(border=True):
+                    st.markdown("#### Canceled")
+                    st.markdown(f"## {canceled_count}")
+            with col4:
+                with st.container(border=True):
+                    st.markdown("#### Reward Points")
+                    st.markdown(f"## {reward_points}")
+
+
+            st.divider()
+            col1, col2 = st.columns([4, 2])
+            with col1:
+                with st.container(border=True):
+                    st.markdown("### Quick Overview")
+                    if len(user_appts) > 0:
+                        for appt in user_appts:
+                            st.markdown(f"**{appt['service']}** | {appt['date']} at {appt['time']} | {appt.get('status', 'Scheduled')}")
+                    else:
+                        st.info("No appointments found.")
+            with col2:
+                with st.container(border=True):
+                    st.markdown("### Rewards Program")
+                    st.write("Earn 10 points for every completed appointment.")
+                    st.write("Redeem points for salon rewards.")
+                    st.write(f"Your current points: {reward_points}")
+
+        # booking page
+
+        elif st.session_state["page"] == "book_appointment":
+            st.header("Book Appointment")
+            st.divider()
+
+            col1, col2, col3 = st.columns([1, 3, 1])
+            with col2:
+                with st.container(border=True):
+                    nail_service = st.selectbox("Service", list(service_prices.keys()), key="service_select")
+                    employee = st.selectbox("Employee Name", employee_names, key="employee_select")
+                    selected_date = st.date_input("Date", key="date_select")
+
+# find already booked times for this employee/date
+
+                    booked_times = []
+                    for appt in appointments:
+                        if appt["employee"] == employee and appt["date"] == str(selected_date) and appt.get("status") != "Canceled":
+                            booked_times.append(appt["time"])
+
+                    # only show available times
+                    available_times = []
+                    for appt_time in all_times:
+                        if appt_time not in booked_times:
+                            available_times.append(appt_time)
+
+                    if len(available_times) > 0:
+                        selected_time = st.selectbox("Time", available_times, key="time_select")
+                    else:
+                        selected_time = None
+                        st.warning("No available times for this employee on this date.")
+
+                    st.markdown(f"**Price:** ${service_prices[nail_service]}")
+
+                    if st.button("Book Appointment", key="book_appointment_submit_btn", type="primary", use_container_width=True):
+                        if selected_date < date.today(): #help of ai to help with this line 
+                            st.error("You cannot book an appointment in the past.")
+                        elif not selected_time:
+                            st.error("Please choose a date with an available time.")
+                        elif not has_inventory_for_service(nail_service):
+                            st.error("Not enough inventory available to book this appointment.")
+                        else:
+                            subtract_success = False
+                            with st.spinner("Recording..."):
+                                new_appt = {
+                                    "id": get_next_appointment_id(),
+                                    "service": nail_service,
+                                    "price": service_prices[nail_service],
+                                    "date": str(selected_date),
+                                    "time": selected_time,
+                                    "employee": employee,
+                                    "client": st.session_state["user"]["full_name"],
+                                    "client_email": st.session_state["user"]["email"],
+                                    "status": "Scheduled",
+                                    "created_at": str(datetime.now()),
+                                    "canceled_at": ""
+                                }
+
+                                subtract_success = update_inventory_for_service(nail_service, "subtract")
+                                if subtract_success:
+                                    appointments.append(new_appt)
+                                    save_appointments()
+                                    save_inventory()
+
+                            if not subtract_success:
+                                st.error("Inventory could not be updated for this appointment.")
+                            else:
+                                st.success("Appointment booked successfully.")
+                                st.session_state["page"] = "my_appointments"
+                                st.rerun()
+
+
+
+
