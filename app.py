@@ -7,6 +7,27 @@ import uuid
 # Naming the website
 st.set_page_config(page_title="Polished to Perfection", layout="wide", initial_sidebar_state="expanded")
 
+# Session State
+# -----------------------------
+if "logged_in" not in st.session_state:
+    st.session_state["logged_in"] = False
+if "user" not in st.session_state:
+    st.session_state["user"] = None
+if "role" not in st.session_state:
+    st.session_state["role"] = None
+if "page" not in st.session_state:
+    st.session_state["page"] = "dashboard"
+if "selected_appointment_id" not in st.session_state:
+    st.session_state["selected_appointment_id"] = None
+if "restock_item_id" not in st.session_state:
+    st.session_state["restock_item_id"] = None
+if "appointment_status_filter" not in st.session_state:
+    st.session_state["appointment_status_filter"] = "All"
+if "customer_history_filter" not in st.session_state:
+    st.session_state["customer_history_filter"] = "All"
+if "messages" not in st.session_state:
+    st.session_state["messages"] = []
+
 #Adding the files
 # -----------------------------
 users_file = Path("users.json")
